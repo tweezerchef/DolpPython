@@ -1,5 +1,4 @@
 import pandas as pd
-
 from sklearn.neighbors import NearestNeighbors
 
 # Load the sales data from the CSV file (Please change if not in current directory)
