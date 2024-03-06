@@ -68,19 +68,25 @@ autocomplete_list = df["Customer Name"].unique().tolist()
 
 
 def autocomplete(event):
-    entry = event.widget
-    text = entry.get()
-    if text != "":
-        matches = [name for name in autocomplete_list if name.startswith(text)]
+    text = name_entry.get()
+    if text:
+        matches = [
+            name for name in df["Customer Name"].unique() if name.startswith(text)
+        ]
         if matches:
-            listbox = tk.Listbox(root)
-            listbox.place(relx=0.25, rely=0.05)
-            listbox.insert(0, *matches)
-            listbox.bind(
-                "<<ListboxSelect>>",
-                lambda event: entry.delete(0, tk.END)
-                and entry.insert(0, event.widget.get(event.widget.curselection())),
-            )
+            autocomplete_listbox = Listbox(root, height=4)
+            autocomplete_listbox.place(relx=0.25, rely=0.05)
+            for match in matches:
+                autocomplete_listbox.insert(END, match)
+
+            def on_select(event):
+                name_entry.delete(0, END)
+                name_entry.insert(
+                    0, autocomplete_listbox.get(autocomplete_listbox.curselection())
+                )
+                clear_and_hide_listbox(autocomplete_listbox)
+
+            autocomplete_listbox.bind("<<ListboxSelect>>", on_select)
 
 
 def select_from_listbox(event):
