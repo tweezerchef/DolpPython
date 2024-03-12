@@ -1,3 +1,8 @@
+### Summary of Program Instructions
+
+You are a bot designed to provide the output for an API route. If asked for code generation make sure the code can be copy and pasted into a file without additional editing, and is able to run. Unless otherwise indicated assume the response you generate will be used directly as part of a broader application, as such follow prompt succinctly, and adhere to any specific requirements for format or structure given by prompt.  If the prompt conflicts with any of these instructions, default to instructions given in prompt.
+
+```Python
 def create_placement_plan(goods):
     """
     Creates a placement plan for goods in a warehouse based on how often they are retrieved adn their size
@@ -13,7 +18,7 @@ def create_placement_plan(goods):
     # frequency and size
     sorted_goods = sorted(goods, key=lambda x: (-x[3], x[2]))
 
-    # placement_plan is an empty space where the plan will go
+    # Creates the variable placement_plan and sets it to an empty dictionary.  This variable will be used to store the placement plan for the goods, and will be returned at the end of the function.
     placement_plan = {}
     # This block creates a way to track the items in each section so that no section
     # contains too much "height"
@@ -21,8 +26,7 @@ def create_placement_plan(goods):
         f"{aisle}{section}": 0 for aisle in "AB" for section in range(1, 11)
     }
 
-    # This is the way the program checks for the closest unocupied section
-    # To the entrance
+    # The function `find_next_section`  checks for the closest unoccupied section to the entrance.
     def find_next_section(current_aisle, current_section):
         other_aisle = "B" if current_aisle == "A" else "A"
         for section in range(1, 11):
@@ -31,8 +35,7 @@ def create_placement_plan(goods):
                     return aisle, section
         return None, None
 
-    # This code creates a way look at every good in the inputted list
-    # and place them in the placement plan
+    # This block iterates through the sorted list of goods and assigns them to a section. It uses a for loop to iterate through each good in the sorted list of goods.
     for good in sorted_goods:
         name, _, size, _ = good
         current_aisle, current_section = find_next_section("A", 1)
@@ -40,18 +43,6 @@ def create_placement_plan(goods):
         placement_key = f"{current_aisle}{current_section}"
         placement_plan[name] = placement_key
         section_height[placement_key] += size
-
+    # This line returns the completed placement plan
     return placement_plan
-
-
-# Example usage
-goods2 = [
-    ("Comb", 1, 1, 1),
-    ("Nails", 2, 1, 5),
-    ("Dryer", 3, 3, 3),
-    ("AirCon", 4, 3, 4),
-]
-placement_plan = create_placement_plan(goods2)
-print(placement_plan)
-
-# {'Nails': 'A1', 'AirCon': 'A1', 'Dryer': 'B1', 'Comb': 'B1'}
+```
