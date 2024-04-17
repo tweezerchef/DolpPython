@@ -17,6 +17,8 @@ c.right = f
 
 
 def breadth_first_values(root):
+    if root is None:
+        return []
     queue = deque()
     queue.append(root)
     output = []
